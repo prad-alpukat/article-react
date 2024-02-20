@@ -13,6 +13,7 @@ export default function SectionCatalog() {
                         return (
                             <Card
                                 key={index}
+                                id={post.id}
                                 title={post.title.rendered}
                                 content={post.excerpt.rendered}
                             />

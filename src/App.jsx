@@ -1,4 +1,3 @@
-import React from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
 // import pages
@@ -9,13 +8,15 @@ import AdminDashboard from './pages/AdminDashboard'
 import CreatePost from './pages/CreatePost'
 import EditPost from './pages/EditPost'
 
-// import components
+// import utils
+import ScrollToTop from './utils/ScrollToTop'
 
 
 export default function App() {
   return (
     <>
       <BrowserRouter>
+        <ScrollToTop />
         <Routes>
           {/* client pages */}
           <Route path="/" element={<Home />} />
