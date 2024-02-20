@@ -1,0 +1,18 @@
+import React from 'react'
+
+export default function Navbar() {
+    return (
+        <div className="navbar bg-base-100">
+            <div className="container">
+                <div className="flex-1">
+                    <a className="text-xl btn btn-ghost">My Article</a>
+                </div>
+                <div className="flex-none gap-2">
+                    <div className="form-control">
+                        <input type="search" placeholder="Search" className="w-24 input input-bordered md:w-auto" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    )
+}
