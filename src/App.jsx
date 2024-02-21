@@ -11,12 +11,12 @@ import EditPost from './pages/EditPost'
 // import utils
 import ScrollToTop from './utils/ScrollToTop'
 
-
 export default function App() {
   return (
     <>
       <BrowserRouter>
         <ScrollToTop />
+
         <Routes>
           {/* client pages */}
           <Route path="/" element={<Home />} />
