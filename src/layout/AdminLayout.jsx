@@ -1,29 +1,37 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import NavbarAdmin from '../components/sections/NavbarAdmin'
 import FooterAdmin from '../components/sections/FooterAdmin'
 
-import { checkAuth } from '../utils/auth'
-import { useNavigate } from 'react-router-dom'
+import { isLogged } from '../utils/auth'
+import { useNavigate, useLocation } from 'react-router-dom'
 
 export default function AdminLayout({ children }) {
+    const { pathname } = useLocation();
     const navigate = useNavigate();
 
+    const [isLogin, setIsLogin] = useState(false);
+
     // check if user is logged in
-    async function isLogged() {
-        const isLogin = await checkAuth();
+    async function checkAuth() {
+        const isLogin = await isLogged();
+        setIsLogin(isLogin);
+        if (!isLogin) {
+            navigate('/admin-login');
+        }
+
+        if (isLogin && pathname === '/admin-login') {
+            navigate('/admin');
+        }
     }
 
     useEffect(() => {
-        // if user is not logged in, redirect to login page
-        if (!isLogged()) {
-            navigate('/admin-login');
-        }
+        checkAuth()
     }, [])
 
     return (
         <div className='flex flex-col min-h-screen'>
             {/* navbar */}
-            <NavbarAdmin />
+            <NavbarAdmin isLogin={isLogin} />
 
             {/* main content */}
             <main>

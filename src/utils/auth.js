@@ -21,7 +21,7 @@ async function validateToken() {
 }
 
 
-async function checkAuth() {
+async function isLogged() {
     const token = localStorage.getItem('token');
     if (token) {
 
@@ -39,4 +39,4 @@ async function checkAuth() {
     }
 }
 
-export { checkAuth }
+export { isLogged }

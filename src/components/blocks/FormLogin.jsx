@@ -2,8 +2,10 @@ import React, { useState } from 'react'
 import Input from '../basics/Input'
 import Swal from 'sweetalert2'
 import { loginUser } from '../../utils/dataFetch'
+import { useNavigate } from 'react-router-dom'
 
 export default function FormLogin() {
+    const navigate = useNavigate()
     const base_url = "https://blog-fe-batch5.neuversity.id/blog-fe-batch5"
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
@@ -32,6 +34,8 @@ export default function FormLogin() {
                 text: 'You are logged in!',
                 icon: 'success',
                 confirmButtonText: 'Cool'
+            }).then(() => {
+                navigate('/admin')
             })
         } else {
             Swal.fire({
