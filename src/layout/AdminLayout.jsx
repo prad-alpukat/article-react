@@ -1,12 +1,12 @@
 import React from 'react'
-import Navbar from '../components/sections/Navbar'
-import Footer from '../components/sections/Footer'
+import NavbarAdmin from '../components/sections/NavbarAdmin'
+import FooterAdmin from '../components/sections/FooterAdmin'
 
 export default function AdminLayout({ children }) {
     return (
-        <>
+        <div className='flex flex-col min-h-screen'>
             {/* navbar */}
-            <Navbar />
+            <NavbarAdmin />
 
             {/* main content */}
             <main>
@@ -14,7 +14,7 @@ export default function AdminLayout({ children }) {
             </main>
 
             {/* footer */}
-            <Footer />
-        </>
+            <FooterAdmin />
+        </div>
     )
 }

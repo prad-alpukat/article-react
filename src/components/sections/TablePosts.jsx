@@ -1,8 +1,18 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { NavLink } from 'react-router-dom'
 import Pagination from '../basics/Pagination'
+import { getPosts } from '../../utils/dataFetch'
+import { dateFormatter } from '../../utils/formatter'
 
 export default function TablePosts() {
+    const [posts, setPosts] = useState(null)
+
+
+    useEffect(() => {
+        getPosts()
+            .then(data => { setPosts(data) })
+    }, [])
+
     return (
         <section className="container my-10">
             <h3 className='mb-3 text-2xl font-bold'>Posts: </h3>
@@ -11,58 +21,30 @@ export default function TablePosts() {
                     {/* head */}
                     <thead>
                         <tr>
-                            <th></th>
+                            <th>#</th>
                             <th>Title</th>
                             <th>Created At</th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {/* row 1 */}
-                        <tr>
-                            <th>1</th>
-                            <td>Lorem ipsum dolor sit amet.</td>
-                            <td>22-01-2024</td>
-                            <td>
-                                <div className='flex gap-3'>
-                                    <NavLink to="/admin/edit-post/1" className="btn btn-secondary btn-sm">Edit</NavLink>
-                                    <button className="btn btn-error btn-sm">Delete</button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>1</th>
-                            <td>Lorem ipsum dolor sit amet.</td>
-                            <td>22-01-2024</td>
-                            <td>
-                                <div className='flex gap-3'>
-                                    <NavLink to="/admin/edit-post/1" className="btn btn-secondary btn-sm">Edit</NavLink>
-                                    <button className="btn btn-error btn-sm">Delete</button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>1</th>
-                            <td>Lorem ipsum dolor sit amet.</td>
-                            <td>22-01-2024</td>
-                            <td>
-                                <div className='flex gap-3'>
-                                    <NavLink to="/admin/edit-post/1" className="btn btn-secondary btn-sm">Edit</NavLink>
-                                    <button className="btn btn-error btn-sm">Delete</button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>1</th>
-                            <td>Lorem ipsum dolor sit amet.</td>
-                            <td>22-01-2024</td>
-                            <td>
-                                <div className='flex gap-3'>
-                                    <NavLink to="/admin/edit-post/1" className="btn btn-secondary btn-sm">Edit</NavLink>
-                                    <button className="btn btn-error btn-sm">Delete</button>
-                                </div>
-                            </td>
-                        </tr>
+                        {
+                            posts && posts.map((post, index) => {
+                                return (
+                                    <tr key={post.id}>
+                                        <th>{index + 1}</th>
+                                        <td>{post.title.rendered}</td>
+                                        <td>{dateFormatter(post.date)}</td>
+                                        <td>
+                                            <div className='flex gap-3'>
+                                                <NavLink to={`/admin/edit-post/${post.id}`} className="btn btn-secondary btn-sm">Edit</NavLink>
+                                                <button className="btn btn-error btn-sm">Delete</button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                )
+                            })
+                        }
                     </tbody>
                 </table>
             </div>
