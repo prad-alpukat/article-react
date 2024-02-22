@@ -1,24 +1,32 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 
 import Card from '../basics/CardArticle'
 import Pagination from '../basics/Pagination'
+import { getPosts } from "../../utils/dataFetch"
 
 export default function SectionCatalog() {
+    const [posts, setPosts] = useState(null)
+
+    async function fetchData() {
+        const res = await getPosts()
+        setPosts(res)
+    }
+
+    useEffect(() => {
+        fetchData()
+    }, [])
+
+
     return (
         <div className="container flex flex-col">
             <div className='grid grid-cols-4 gap-8 my-10'>
-                <Card />
-                <Card />
-                <Card />
-                <Card />
-                <Card />
-                <Card />
-                <Card />
-                <Card />
-                <Card />
-                <Card />
-                <Card />
-                <Card />
+                {
+                    posts && posts.map((post, index) => {
+                        return (
+                            <Card key={index} post={post} />
+                        )
+                    })
+                }
             </div>
 
             {/* pagination */}
