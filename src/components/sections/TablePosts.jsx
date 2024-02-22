@@ -7,10 +7,13 @@ import { dateFormatter } from '../../utils/formatter'
 export default function TablePosts() {
     const [posts, setPosts] = useState(null)
 
+    async function fetchData() {
+        const data = await getPosts()
+        setPosts(data)
+    }
 
     useEffect(() => {
-        getPosts()
-            .then(data => { setPosts(data) })
+        fetchData()
     }, [])
 
     return (

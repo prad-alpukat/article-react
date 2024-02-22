@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import Input from '../basics/Input'
 import Swal from 'sweetalert2'
+import { loginUser } from '../../utils/dataFetch'
 
 export default function FormLogin() {
     const base_url = "https://blog-fe-batch5.neuversity.id/blog-fe-batch5"
@@ -18,20 +19,28 @@ export default function FormLogin() {
     const handleSubmit = async (e) => {
         e.preventDefault()
 
-        const option = {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                username,
-                password
-            })
+        const data = {
+            username,
+            password
         }
 
-        const res = await fetch(base_url + '/wp-json/jwt-auth/v1/token', option)
-        const data = await res.json()
-        console.log(data)
+        const response = await loginUser(data)
+        if (response.token) {
+            localStorage.setItem('token', response.token)
+            Swal.fire({
+                title: 'Success!',
+                text: 'You are logged in!',
+                icon: 'success',
+                confirmButtonText: 'Cool'
+            })
+        } else {
+            Swal.fire({
+                title: 'Error!',
+                text: response.message,
+                icon: 'error',
+                confirmButtonText: 'Ok'
+            })
+        }
 
     }
 
