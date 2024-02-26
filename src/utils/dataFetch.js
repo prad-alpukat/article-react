@@ -3,8 +3,9 @@ const BASE_URL = import.meta.env.VITE_BASE_URL;
 // get all posts
 async function getPosts() {
     try {
-        const response = await fetch(`${BASE_URL}/wp/v2/posts?_embed&author=2`);
+        const response = await fetch(`${BASE_URL}/wp/v2/posts?_embed&author=8&per_page=100`);
         const data = await response.json();
+        console.log(data);
         return data;
     } catch (error) {
         console.error('Error:', error);
@@ -45,6 +46,62 @@ async function updatePost($id, $data) {
     }
 }
 
+// create a post
+async function createPost(data) {
+    try {
+        if (!data) throw new Error('parameter data is required! in createPost() function.');
+
+        const response = await fetch(`${BASE_URL}/wp/v2/posts`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'authorization': `Bearer ${localStorage.getItem('token')}`,
+            },
+            body: JSON.stringify(data),
+        });
+        const res = await response.json();
+        console.log(res)
+        return res;
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
+
+// get list media
+async function getMedia() {
+    try {
+        const response = await fetch(`${BASE_URL}/wp/v2/media`);
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
+
+// create media item
+async function createMediaItem(data) {
+    try {
+        if (!data) throw new Error('parameter data is required! in createMediaItem() function.');
+
+        const form = new FormData();
+        form.append('file', data);
+
+        const options = {
+            method: 'POST',
+            headers: {
+                'authorization': `Bearer ${localStorage.getItem('token')}`,
+            },
+        }
+
+        options.body = form;
+        const response = await fetch(`${BASE_URL}/wp/v2/media`, options);
+        const res = await response.json();
+        return res;
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
+
 // login user
 async function loginUser($data) {
     try {
@@ -58,6 +115,9 @@ async function loginUser($data) {
             body: JSON.stringify($data),
         });
         const data = await response.json();
+
+        localStorage.setItem('token', data.token)
+        localStorage.setItem('user', data.id)
         return data;
     } catch (error) {
         console.error('Error:', error);
@@ -66,4 +126,4 @@ async function loginUser($data) {
 
 
 // export functions
-export { getPosts, getPost, updatePost, loginUser }
+export { getPosts, getPost, updatePost, loginUser, createPost, getMedia, createMediaItem }

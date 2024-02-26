@@ -23,8 +23,7 @@ async function validateToken() {
 
 async function isLogged() {
     const token = localStorage.getItem('token');
-    if (token) {
-
+    if (token != 'undefined' && token != undefined) {
         // check token valid or not
         const isValid = await validateToken();
 

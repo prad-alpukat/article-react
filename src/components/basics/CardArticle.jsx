@@ -2,6 +2,7 @@ import React from 'react'
 import { NavLink } from 'react-router-dom'
 
 export default function Card({ post = { id: 0, title: { rendered: "Title" }, excerpt: { rendered: "Content" }, thumbnail: "https://via.placeholder.com/150" } }) {
+  console.log(post._embedded['wp:featuredmedia'] ? post._embedded["wp:featuredmedia"] : "https://via.placeholder.com/200x150")
   return (
     <div className="w-full shadow-xl card bg-base-100">
       <figure>

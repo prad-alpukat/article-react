@@ -28,7 +28,6 @@ export default function FormLogin() {
 
         const response = await loginUser(data)
         if (response.token) {
-            localStorage.setItem('token', response.token)
             Swal.fire({
                 title: 'Success!',
                 text: 'You are logged in!',

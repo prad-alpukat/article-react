@@ -6,7 +6,7 @@ export default function Input({ label, placeholder, type = "text", value = "", o
             <div className="label">
                 <span className="label-text">{label}</span>
             </div>
-            <input type={type} placeholder={placeholder} value={value} onInput={onInput} required={required} className="w-full input input-bordered" />
+            <input type={type} placeholder={placeholder} value={value} onInput={onInput} required={required} className="w-full py-2 input input-bordered" />
         </label>
     )
 }
