@@ -9,7 +9,8 @@ export default function SectionCatalog() {
 
     async function fetchData() {
         const res = await getPosts()
-        setPosts(res)
+        const data = await res.json()
+        setPosts(data)
     }
 
     useEffect(() => {

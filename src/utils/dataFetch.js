@@ -116,6 +116,23 @@ async function createMediaItem(data) {
     }
 }
 
+// delete a post
+async function deletePost(id) {
+    try {
+        if (!id) throw new Error('parameter id is required! in deletePost() function.');
+
+        const response = await fetch(`${BASE_URL}/wp/v2/posts/${id}`, {
+            method: 'DELETE',
+            headers: {
+                'authorization': `Bearer ${localStorage.getItem('token')}`,
+            },
+        });
+        return response.ok;
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
+
 // login user
 async function loginUser($data) {
     try {
@@ -140,4 +157,4 @@ async function loginUser($data) {
 
 
 // export functions
-export { getPosts, getPost, updatePost, loginUser, createPost, getMedia, createMediaItem, deleteMediaItem }
+export { getPosts, getPost, updatePost, loginUser, createPost, getMedia, createMediaItem, deleteMediaItem, deletePost }

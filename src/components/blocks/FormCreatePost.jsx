@@ -35,7 +35,21 @@ export default function FormCreatePost() {
         // upload image to media
         const file = e.target.files[0]
         setFeaturedMedia(e.target.value)
+
+        // show loading
+        Swal.fire({
+            title: 'Uploading...',
+            allowOutsideClick: false,
+            didOpen: () => {
+                Swal.showLoading()
+            }
+        })
+
         const response = await createMediaItem(file)
+
+        // hide loading
+        Swal.close()
+
         setFeaturedMediaId(response.id)
     }
 
@@ -87,7 +101,9 @@ export default function FormCreatePost() {
                 {/* title */}
                 <Input type="text" label="Title" value={title} placeholder="title..." onInput={(e) => setTitle(e.target.value)} />
 
+
                 {/* content */}
+                <label htmlFor="content">Content: </label>
                 <FroalaEditorComponent tag='textarea'
                     onModelChange={(model) => setContent(model)}
                     config={config}
@@ -96,7 +112,7 @@ export default function FormCreatePost() {
                 />
 
                 {/* button action */}
-                <div className='flex gap-3'>
+                <div className='flex gap-3 mt-8'>
                     <button className='btn btn-primary' type="submit">Create</button>
                 </div>
             </form>
