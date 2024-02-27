@@ -6,7 +6,6 @@ async function getPosts() {
     try {
         const response = await fetch(`${BASE_URL}/wp/v2/posts?_embed&author=8&per_page=100`);
         const data = await response.json();
-        console.log(data);
         return data;
     } catch (error) {
         console.error('Error:', error);
@@ -60,9 +59,7 @@ async function createPost(data) {
             },
             body: JSON.stringify(data),
         });
-        const res = await response.json();
-        console.log(res)
-        return res;
+        return response;
     } catch (error) {
         console.error('Error:', error);
     }

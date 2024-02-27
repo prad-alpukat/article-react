@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import Input from "../basics/Input"
 import { createPost, createMediaItem } from "../../utils/dataFetch";
+import { useNavigate } from 'react-router-dom';
 
 // Require Editor CSS files.
 import 'froala-editor/css/froala_style.min.css';
@@ -9,10 +10,15 @@ import 'froala-editor/js/plugins.pkgd.min.js';
 
 import FroalaEditorComponent from 'react-froala-wysiwyg';
 
+import Swal from 'sweetalert2';
+
 export default function FormCreatePost() {
+    const navigate = useNavigate()
+
     const [title, setTitle] = useState('')
     const [content, setContent] = useState('')
     const [featuredMedia, setFeaturedMedia] = useState("")
+    const [featuredMediaId, setFeaturedMediaId] = useState(null)
 
     const config = {
         placeholderText: "Edit Your Content Here!",
@@ -30,7 +36,7 @@ export default function FormCreatePost() {
         const file = e.target.files[0]
         setFeaturedMedia(e.target.value)
         const response = await createMediaItem(file)
-        console.log(response)
+        setFeaturedMediaId(response.id)
     }
 
     const handleSubmit = async (e) => {
@@ -38,10 +44,37 @@ export default function FormCreatePost() {
         const data = {
             title,
             content,
-            status: 'publish'
+            status: 'publish',
+            featured_media: featuredMediaId
         }
         const response = await createPost(data)
-        console.log(response)
+        if (response.ok) {
+            Swal.fire({
+                icon: 'success',
+                title: 'Success',
+                text: 'Post created successfully!',
+                showConfirmButton: true,
+                confirmButtonText: `View Posts`,
+                showCancelButton: true,
+                cancelButtonText: `Create Another Post`,
+            }).then((isConfirmed) => {
+                if (isConfirmed) {
+                    navigate('/admin/home')
+                } else {
+                    setTitle('')
+                    setContent('')
+                    setFeaturedMedia('')
+                    setFeaturedMediaId(null)
+                }
+            })
+
+        } else {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Failed to create post!',
+            })
+        }
     }
 
     return (

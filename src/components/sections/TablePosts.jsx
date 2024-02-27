@@ -35,7 +35,19 @@ export default function TablePosts() {
                                 return (
                                     <tr key={post.id}>
                                         <th>{index + 1}</th>
-                                        <td>{post.title.rendered}</td>
+                                        <td>
+                                            <div className="flex items-center gap-3">
+                                                <div className="avatar">
+                                                    <div className="w-12 h-12 mask mask-squircle">
+                                                        <img src={post._embedded['wp:featuredmedia'] ? post._embedded["wp:featuredmedia"][0].source_url : "https://via.placeholder.com/200x150"} alt="Avatar Tailwind CSS Component" />
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <div className="font-bold">{post.title.rendered}</div>
+                                                    <div className="text-sm opacity-50">{post.alt_text}</div>
+                                                </div>
+                                            </div>
+                                        </td>
                                         <td>{dateFormatter(post.date)}</td>
                                         <td>
                                             <div className='flex gap-3'>
