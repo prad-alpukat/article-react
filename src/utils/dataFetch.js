@@ -2,11 +2,10 @@ const BASE_URL = import.meta.env.VITE_BASE_URL;
 const ID_USER = 8
 
 // get all posts
-async function getPosts() {
+async function getPosts(page = 1) {
     try {
-        const response = await fetch(`${BASE_URL}/wp/v2/posts?_embed&author=8&per_page=100`);
-        const data = await response.json();
-        return data;
+        const response = await fetch(`${BASE_URL}/wp/v2/posts?_embed&author=${ID_USER}&page=${page}`);
+        return response
     } catch (error) {
         console.error('Error:', error);
     }

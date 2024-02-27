@@ -6,15 +6,20 @@ import { dateFormatter } from '../../utils/formatter'
 
 export default function TablePosts() {
     const [posts, setPosts] = useState(null)
+    const [currentPage, setCurrentPage] = useState(1)
+    const [totalPage, setTotalPage] = useState(1)
 
     async function fetchData() {
-        const data = await getPosts()
+        const response_post = await getPosts(currentPage)
+        const data = await response_post.json()
+        setTotalPage(response_post.headers.get('X-WP-TotalPages'))
         setPosts(data)
+        console.log(response_post.headers.get('X-WP-TotalPages'))
     }
 
     useEffect(() => {
         fetchData()
-    }, [])
+    }, [currentPage])
 
     return (
         <section className="container my-10">
@@ -62,7 +67,7 @@ export default function TablePosts() {
                     </tbody>
                 </table>
             </div>
-            <Pagination />
+            <Pagination currentPage={currentPage} onNext={() => { setCurrentPage(currentPage + 1) }} onPrev={() => { setCurrentPage(currentPage - 1) }} totalPage={totalPage} />
         </section>
     )
 }
