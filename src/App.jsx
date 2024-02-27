@@ -7,6 +7,7 @@ import AdminLogin from './pages/AdminLogin'
 import AdminDashboard from './pages/AdminDashboard'
 import CreatePost from './pages/CreatePost'
 import EditPost from './pages/EditPost'
+import AdminMedia from './pages/AdminMedia'
 
 // import utils
 import ScrollToTop from './utils/ScrollToTop'
@@ -27,7 +28,7 @@ export default function App() {
           <Route path="/admin" element={<Navigate to="/admin/home" />} />
           <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/admin/home" element={<AdminDashboard />} />
-          <Route path="/admin/media" element={<AdminDashboard />} />
+          <Route path="/admin/media" element={<AdminMedia />} />
           <Route path="/admin/create-post" element={<CreatePost />} />
           <Route path="/admin/edit-post/:id" element={<EditPost />} />
         </Routes>

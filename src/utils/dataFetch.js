@@ -1,4 +1,5 @@
 const BASE_URL = import.meta.env.VITE_BASE_URL;
+const ID_USER = 8
 
 // get all posts
 async function getPosts() {
@@ -70,9 +71,26 @@ async function createPost(data) {
 // get list media
 async function getMedia() {
     try {
-        const response = await fetch(`${BASE_URL}/wp/v2/media`);
+        const response = await fetch(`${BASE_URL}/wp/v2/media?_embed&author=${ID_USER}`);
         const data = await response.json();
         return data;
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
+
+// delete media item
+async function deleteMediaItem(id) {
+    try {
+        if (!id) throw new Error('parameter id is required! in deleteMediaItem() function.');
+
+        const response = await fetch(`${BASE_URL}/wp/v2/media/${id}?force=true`, {
+            method: 'DELETE',
+            headers: {
+                'authorization': `Bearer ${localStorage.getItem('token')}`,
+            },
+        });
+        return response.ok;
     } catch (error) {
         console.error('Error:', error);
     }
@@ -126,4 +144,4 @@ async function loginUser($data) {
 
 
 // export functions
-export { getPosts, getPost, updatePost, loginUser, createPost, getMedia, createMediaItem }
+export { getPosts, getPost, updatePost, loginUser, createPost, getMedia, createMediaItem, deleteMediaItem }
