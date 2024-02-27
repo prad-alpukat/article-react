@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { NavLink } from 'react-router-dom'
 import Pagination from '../basics/Pagination'
-import { getPosts } from '../../utils/dataFetch'
+import { getPosts, deletePost } from '../../utils/dataFetch'
 import { dateFormatter } from '../../utils/formatter'
+import Swal from 'sweetalert2'
 
 export default function TablePosts() {
     const [posts, setPosts] = useState(null)
@@ -14,7 +15,36 @@ export default function TablePosts() {
         const data = await response_post.json()
         setTotalPage(response_post.headers.get('X-WP-TotalPages'))
         setPosts(data)
-        console.log(response_post.headers.get('X-WP-TotalPages'))
+    }
+
+    async function handleDelete(id) {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                const response = await deletePost(id)
+                if (response.status === 200) {
+                    Swal.fire(
+                        'Deleted!',
+                        'Your file has been deleted.',
+                        'success'
+                    )
+                    fetchData()
+                } else {
+                    Swal.fire(
+                        'Failed!',
+                        'Something went wrong',
+                        'error'
+                    )
+                }
+            }
+        })
     }
 
     useEffect(() => {
@@ -57,7 +87,7 @@ export default function TablePosts() {
                                         <td>
                                             <div className='flex gap-3'>
                                                 <NavLink to={`/admin/edit-post/${post.id}`} className="btn btn-secondary btn-sm">Edit</NavLink>
-                                                <button className="btn btn-error btn-sm">Delete</button>
+                                                <button className="btn btn-error btn-sm" onClick={() => handleDelete(post.id)}>Delete</button>
                                             </div>
                                         </td>
                                     </tr>

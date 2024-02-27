@@ -127,7 +127,7 @@ async function deletePost(id) {
                 'authorization': `Bearer ${localStorage.getItem('token')}`,
             },
         });
-        return response.ok;
+        return response;
     } catch (error) {
         console.error('Error:', error);
     }
