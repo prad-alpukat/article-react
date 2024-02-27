@@ -16,11 +16,11 @@ export default function AdminLayout({ children }) {
         const isLogin = await isLogged();
         setIsLogin(isLogin);
         if (!isLogin) {
-            navigate('/admin-login');
+            navigate('/admin/login');
         }
 
-        if (isLogin && pathname === '/admin-login') {
-            navigate('/admin');
+        if (isLogin && pathname === '/admin/login') {
+            navigate('/admin/home');
         }
     }
 

@@ -18,7 +18,6 @@ export default function TablePosts() {
 
     return (
         <section className="container my-10">
-            <h3 className='mb-3 text-2xl font-bold'>Posts: </h3>
             <div className="overflow-x-auto">
                 <table className="table table-zebra">
                     {/* head */}

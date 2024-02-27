@@ -19,7 +19,7 @@ export default function NavbarAdmin({ isLogin }) {
         }).then((result) => {
             if (result.isConfirmed) {
                 localStorage.removeItem('token');
-                navigate('/admin-login');
+                navigate('/admin/login');
             }
         })
     }
@@ -30,12 +30,19 @@ export default function NavbarAdmin({ isLogin }) {
                 <div className="flex-1">
                     <NavLink to={"/admin"} className="text-xl btn btn-ghost">My Article</NavLink>
                 </div>
-                <div className="flex items-center flex-none gap-2">
-                    {/* logout */}
-                    {
-                        isLogin &&
-                        <button onClick={handleLogout} className="btn btn-error btn-outline">Logout</button>
-                    }
+                <div className="flex-none">
+                    <ul className="items-center px-1 menu menu-horizontal">
+                        <li><NavLink to={"/admin/home"}>Posts</NavLink></li>
+                        <li><NavLink to={"/admin/media"}>Media</NavLink></li>
+
+                        {
+                            isLogin ?
+                                <li>
+                                    <button onClick={handleLogout} className=' btn ms-3 btn-sm btn-outline btn-error' >Logout</button>
+                                </li>
+                                : null
+                        }
+                    </ul>
                 </div>
             </div>
         </div>
