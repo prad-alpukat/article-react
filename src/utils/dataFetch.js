@@ -20,7 +20,7 @@ async function getPost($id) {
         const data = await response.json();
         return data;
     } catch (error) {
-        console.error('Error:', error);
+        console.log('Error:', error);
     }
 }
 
@@ -109,6 +109,7 @@ async function createMediaItem(data) {
 
         options.body = form;
         const response = await fetch(`${BASE_URL}/wp/v2/media`, options);
+        console.log(response)
         const res = await response.json();
         return res;
     } catch (error) {
